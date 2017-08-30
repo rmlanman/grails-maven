@@ -343,6 +343,13 @@ public abstract class AbstractGrailsMojo extends AbstractMojo {
      * @throws MojoExecutionException if an error occurs while attempting to execute the target.
      */
     protected void runGrails(final String targetName, String args) throws MojoExecutionException {
+        if (!"grails-binary-plugin".equals(project.getPackaging()) &&
+                !"grails-plugin".equals(project.getPackaging()) &&
+                !"grails-app".equals(project.getPackaging())) {
+            getLog().debug("Skipping execution of grails on non-grails project");
+            return;
+        }
+
         configureMavenProxy();
         handleVersionSync();
 
